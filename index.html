@@ -35,7 +35,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { touch-action: pan-x pan-y; scroll-behavior: smooth; }
+html { touch-action: pan-x pan-y; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -46,6 +46,7 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 20px 48px;
   -webkit-font-smoothing: antialiased;
+  word-break: keep-all; overflow-wrap: break-word;
 }
 body::before {
   content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
@@ -248,7 +249,8 @@ img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 .acc-row:last-child { border-bottom: 0; }
 .acc-info { min-width: 0; font-size: 14px; line-height: 1.6; }
 .acc-info .who { font-size: 12px; color: var(--ink-soft); }
-.acc-info .num { font-variant-numeric: tabular-nums; user-select: all; word-break: break-all; }
+.acc-info .num { font-variant-numeric: tabular-nums; user-select: all; }
+.acc-info .num .no { white-space: nowrap; }
 .copy { flex: none; font: inherit; font-size: 12px; color: var(--gold); background: var(--ivory); border: 1px solid var(--gold); padding: 5px 14px; cursor: pointer; }
 
 .closing { background: var(--ivory-2); margin-inline: 0 !important; padding-inline: 32px !important; }
@@ -289,6 +291,27 @@ img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+/* Small phones (≤ 380px wide, e.g. iPhone SE / mini, small Galaxy): shrink headline text so nothing wraps awkwardly */
+.tab, .polaroid figcaption { white-space: nowrap; }
+@media (max-width: 380px) {
+  .tab { font-size: 13px; letter-spacing: .02em; }
+  .cover { padding-inline: 22px; }
+  .cover-top { font-size: 26px; }
+  .polaroid figcaption { font-size: 22px; }
+  .cover-names { font-size: 22px; letter-spacing: .1em; gap: 12px; }
+  .cover-meta { font-size: 13px; }
+  section { padding-inline: 22px; }
+  .acc-body { padding-inline: 12px; }
+  .acc-info { font-size: 13px; }
+  .copy { padding-inline: 10px; }
+}
+@media (max-width: 340px) {
+  .tab { font-size: 12px; letter-spacing: 0; }
+  .cover-top { font-size: 24px; }
+  .polaroid figcaption { font-size: 20px; }
+  .cover-names { font-size: 20px; letter-spacing: .08em; }
+}
 </style>
 </head>
 <body>
@@ -447,17 +470,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-
       <div class="acc-group">
         <button class="acc-toggle" aria-expanded="false" aria-controls="accGroom" id="tgGroom">신랑측 계좌번호 <span class="chev">▾</span></button>
         <div class="acc-body" id="accGroom" hidden>
-          <div class="acc-row"><div class="acc-info"><div class="who">신랑 조욱제</div><div class="num">한국투자증권 64040163-21</div></div><button class="copy" data-copy="한국투자증권 64040163-21">복사</button></div>
-          <div class="acc-row"><div class="acc-info"><div class="who">아버지 조용훈</div><div class="num">국민은행 735725-93-105563</div></div><button class="copy" data-copy="국민은행 735725-93-105563">복사</button></div>
-          <div class="acc-row"><div class="acc-info"><div class="who">어머니 심효신</div><div class="num">국민은행 452-21-1111-540</div></div><button class="copy" data-copy="국민은행 452-21-1111-540">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">신랑 조욱제</div><div class="num"><span class="bank">한국투자증권</span> <span class="no">64040163-21</span></div></div><button class="copy" data-copy="한국투자증권 64040163-21">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">아버지 조용훈</div><div class="num"><span class="bank">국민은행</span> <span class="no">735725-93-105563</span></div></div><button class="copy" data-copy="국민은행 735725-93-105563">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">어머니 심효신</div><div class="num"><span class="bank">국민은행</span> <span class="no">452-21-1111-540</span></div></div><button class="copy" data-copy="국민은행 452-21-1111-540">복사</button></div>
         </div>
       </div>
       <div class="acc-group">
         <button class="acc-toggle" aria-expanded="false" aria-controls="accBride" id="tgBride">신부측 계좌번호 <span class="chev">▾</span></button>
         <div class="acc-body" id="accBride" hidden>
-          <div class="acc-row"><div class="acc-info"><div class="who">신부 김재은</div><div class="num">카카오뱅크 3333-07-8222245</div></div><button class="copy" data-copy="카카오뱅크 3333-07-8222245">복사</button></div>
-          <div class="acc-row"><div class="acc-info"><div class="who">아버지 김화성</div><div class="num">농협은행 195-02-158521</div></div><button class="copy" data-copy="농협은행 195-02-158521">복사</button></div>
-          <div class="acc-row"><div class="acc-info"><div class="who">어머니 정은미</div><div class="num">신한은행 110-049-688075</div></div><button class="copy" data-copy="신한은행 110-049-688075">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">신부 김재은</div><div class="num"><span class="bank">카카오뱅크</span> <span class="no">3333-07-8222245</span></div></div><button class="copy" data-copy="카카오뱅크 3333-07-8222245">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">아버지 김화성</div><div class="num"><span class="bank">농협은행</span> <span class="no">195-02-158521</span></div></div><button class="copy" data-copy="농협은행 195-02-158521">복사</button></div>
+          <div class="acc-row"><div class="acc-info"><div class="who">어머니 정은미</div><div class="num"><span class="bank">신한은행</span> <span class="no">110-049-688075</span></div></div><button class="copy" data-copy="신한은행 110-049-688075">복사</button></div>
         </div>
       </div>
     </section>
